@@ -1,5 +1,6 @@
 package com.example.tiotecpreventivo.ui.navigation
 
+import com.example.tiotecpreventivo.ui.screens.DispositivoScreen
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -24,7 +25,15 @@ fun AppNavigation() {
         }
 
         composable("perfil") {
-            PerfilScreen()
+            PerfilScreen(
+                onContinuar = {
+                    navController.navigate("dispositivo")
+                }
+            )
+        }
+
+        composable("dispositivo") {
+            DispositivoScreen()
         }
     }
 }

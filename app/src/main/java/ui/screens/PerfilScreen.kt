@@ -22,7 +22,9 @@ import com.example.tiotecpreventivo.viewmodel.PerfilViewModel
 
 @Composable
 fun PerfilScreen(
+    onContinuar: () -> Unit,
     viewModel: PerfilViewModel = viewModel()
+
 ) {
     val state = viewModel.uiState
 
@@ -88,10 +90,14 @@ fun PerfilScreen(
         )
 
         Button(
-            onClick = { viewModel.validarFormulario() },
+            onClick = {
+                if (viewModel.validarFormulario()) {
+                    onContinuar()
+                }
+            },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Guardar perfil")
+            Text("Continuar")
         }
     }
 }
