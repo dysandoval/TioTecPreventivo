@@ -1,5 +1,6 @@
 package com.example.tiotecpreventivo.ui.navigation
 
+import com.example.tiotecpreventivo.ui.screens.ChecklistScreen
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
@@ -57,6 +58,9 @@ fun AppNavigation() {
         composable("resultado") {
             ResultadoScreen(
                 viewModel = evaluacionViewModel,
+                onAbrirChecklist = {
+                    navController.navigate("checklist")
+                },
                 onVolverAlInicio = {
                     navController.navigate("inicio") {
                         popUpTo("inicio") {
@@ -64,6 +68,15 @@ fun AppNavigation() {
                         }
                         launchSingleTop = true
                     }
+                }
+            )
+        }
+
+        composable("checklist") {
+            ChecklistScreen(
+                viewModel = evaluacionViewModel,
+                onVolver = {
+                    navController.popBackStack()
                 }
             )
         }

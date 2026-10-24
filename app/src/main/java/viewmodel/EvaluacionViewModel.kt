@@ -7,9 +7,16 @@ import androidx.lifecycle.ViewModel
 
 data class Pregunta(val texto: String)
 
+data class AccionPreventiva(
+    val indice: Int,
+    val texto: String,
+    val completada: Boolean
+)
+
 data class EvaluacionUiState(
     val indiceActual: Int = 0,
     val respuestas: List<Boolean?> = List(6) { null },
+    val accionesCompletadas: List<Boolean> = List(6) { false },
     val errorRespuesta: String? = null,
     val finalizada: Boolean = false
 )
@@ -92,6 +99,29 @@ class EvaluacionViewModel : ViewModel() {
         } else {
             recomendaciones
         }
+    }
+
+    fun accionesPreventivas(): List<AccionPreventiva> {
+        return uiState.respuestas.mapIndexedNotNull { indice, respuesta ->
+            if (respuesta == false) {
+                AccionPreventiva(
+                    indice = indice,
+                    texto = recomendacionesPorPregunta[indice],
+                    completada = uiState.accionesCompletadas[indice]
+                )
+            } else {
+                null
+            }
+        }
+    }
+
+    fun marcarAccionCompletada(indice: Int, completada: Boolean) {
+        val accionesActualizadas = uiState.accionesCompletadas.toMutableList()
+        accionesActualizadas[indice] = completada
+
+        uiState = uiState.copy(
+            accionesCompletadas = accionesActualizadas
+        )
     }
 
     fun reiniciar() {
