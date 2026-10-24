@@ -41,15 +41,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.tiotecpreventivo.viewmodel.PerfilViewModel
 import java.io.File
 
 @Composable
 fun PerfilScreen(
-    onContinuar: () -> Unit,
-    viewModel: PerfilViewModel = viewModel()
+    viewModel: PerfilViewModel,
+    onContinuar: () -> Unit
 ) {
     val state = viewModel.uiState
     val context = LocalContext.current

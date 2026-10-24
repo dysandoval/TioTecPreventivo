@@ -12,11 +12,15 @@ import com.example.tiotecpreventivo.ui.screens.HistorialScreen
 import com.example.tiotecpreventivo.ui.screens.InicioScreen
 import com.example.tiotecpreventivo.ui.screens.PerfilScreen
 import com.example.tiotecpreventivo.ui.screens.ResultadoScreen
+import com.example.tiotecpreventivo.viewmodel.DispositivoViewModel
 import com.example.tiotecpreventivo.viewmodel.EvaluacionViewModel
+import com.example.tiotecpreventivo.viewmodel.PerfilViewModel
 
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
+    val perfilViewModel: PerfilViewModel = viewModel()
+    val dispositivoViewModel: DispositivoViewModel = viewModel()
     val evaluacionViewModel: EvaluacionViewModel = viewModel()
 
     NavHost(
@@ -33,6 +37,7 @@ fun AppNavigation() {
 
         composable("perfil") {
             PerfilScreen(
+                viewModel = perfilViewModel,
                 onContinuar = {
                     navController.navigate("dispositivo")
                 }
@@ -41,6 +46,7 @@ fun AppNavigation() {
 
         composable("dispositivo") {
             DispositivoScreen(
+                viewModel = dispositivoViewModel,
                 onContinuar = {
                     navController.navigate("evaluacion")
                 }
