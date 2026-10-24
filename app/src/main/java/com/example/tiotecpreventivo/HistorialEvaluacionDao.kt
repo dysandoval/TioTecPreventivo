@@ -7,7 +7,7 @@ import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface `.kt` {
+interface HistorialEvaluacionDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertar(evaluacion: HistorialEvaluacionEntity)

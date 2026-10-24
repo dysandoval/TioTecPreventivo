@@ -6,9 +6,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tiotecpreventivo.local.AppDatabase
-import com.example.tiotecpreventivo.local.HistorialEvaluacionEntity
-import com.example.tiotecpreventivo.local.HistorialRepository
+import com.example.tiotecpreventivo.data.local.AppDatabase
+import com.example.tiotecpreventivo.data.local.HistorialEvaluacionEntity
+import com.example.tiotecpreventivo.data.local.HistorialRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn

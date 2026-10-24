@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 class HistorialRepository(
-    private val historialEvaluacionDao: `HistorialEvaluacionDao.kt`
+    private val historialEvaluacionDao: `HistorialEvaluacionDao`
 ) {
 
     fun obtenerHistorial(): Flow<List<HistorialEvaluacionEntity>> {

@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tiotecpreventivo.viewmodel.HistorialViewModel
+import com.example.tiotecpreventivo.data.local.HistorialEvaluacionEntity
 
 @Composable
 fun HistorialScreen(
