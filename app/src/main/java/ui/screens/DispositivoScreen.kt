@@ -22,6 +22,7 @@ import com.example.tiotecpreventivo.viewmodel.DispositivoViewModel
 
 @Composable
 fun DispositivoScreen(
+    onContinuar: () -> Unit,
     viewModel: DispositivoViewModel = viewModel()
 ) {
     val state = viewModel.uiState
@@ -110,10 +111,13 @@ fun DispositivoScreen(
         )
 
         Button(
-            onClick = viewModel::validarFormulario,
-            modifier = Modifier.fillMaxWidth()
+            onClick = {
+                if (viewModel.validarFormulario()) {
+                    onContinuar()
+                }
+            }
         ) {
-            Text("Validar dispositivo")
+            Text("Continuar a evaluación")
         }
 
         if (state.validado) {
