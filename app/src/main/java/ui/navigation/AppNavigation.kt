@@ -1,13 +1,14 @@
 package com.example.tiotecpreventivo.ui.navigation
 
-import com.example.tiotecpreventivo.ui.screens.ChecklistScreen
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.tiotecpreventivo.ui.screens.ChecklistScreen
 import com.example.tiotecpreventivo.ui.screens.DispositivoScreen
 import com.example.tiotecpreventivo.ui.screens.EvaluacionScreen
+import com.example.tiotecpreventivo.ui.screens.HistorialScreen
 import com.example.tiotecpreventivo.ui.screens.InicioScreen
 import com.example.tiotecpreventivo.ui.screens.PerfilScreen
 import com.example.tiotecpreventivo.ui.screens.ResultadoScreen
@@ -61,6 +62,9 @@ fun AppNavigation() {
                 onAbrirChecklist = {
                     navController.navigate("checklist")
                 },
+                onAbrirHistorial = {
+                    navController.navigate("historial")
+                },
                 onVolverAlInicio = {
                     navController.navigate("inicio") {
                         popUpTo("inicio") {
@@ -75,6 +79,14 @@ fun AppNavigation() {
         composable("checklist") {
             ChecklistScreen(
                 viewModel = evaluacionViewModel,
+                onVolver = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        composable("historial") {
+            HistorialScreen(
                 onVolver = {
                     navController.popBackStack()
                 }

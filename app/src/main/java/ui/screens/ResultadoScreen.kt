@@ -1,5 +1,6 @@
 package com.example.tiotecpreventivo.ui.screens
 
+import com.example.tiotecpreventivo.viewmodel.HistorialViewModel
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,16 +15,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel as composeViewModel
 import com.example.tiotecpreventivo.viewmodel.EvaluacionViewModel
 
 @Composable
 fun ResultadoScreen(
     viewModel: EvaluacionViewModel,
     onAbrirChecklist: () -> Unit,
+    onAbrirHistorial: () -> Unit,
     onVolverAlInicio: () -> Unit
 ) {
+    val historialViewModel: HistorialViewModel = composeViewModel()
+
     val nivel = viewModel.nivelRiesgo()
     val respuestasSeguras = viewModel.respuestasSeguras()
+    val recomendaciones = viewModel.recomendaciones()
+    val acciones = viewModel.accionesPreventivas()
+    val accionesCompletadas = acciones.count { it.completada }
 
     Column(
         modifier = Modifier
@@ -63,7 +71,7 @@ fun ResultadoScreen(
             style = MaterialTheme.typography.titleLarge
         )
 
-        viewModel.recomendaciones().forEach { recomendacion ->
+        recomendaciones.forEach { recomendacion ->
             Text("• $recomendacion")
         }
 
@@ -72,6 +80,47 @@ fun ResultadoScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Ver checklist preventivo")
+        }
+
+        Button(
+            onClick = {
+                historialViewModel.guardarEvaluacion(
+                    nivelRiesgo = nivel,
+                    respuestasSeguras = respuestasSeguras,
+                    recomendaciones = recomendaciones,
+                    accionesCompletadas = accionesCompletadas,
+                    accionesTotales = acciones.size
+                )
+            },
+            enabled = !historialViewModel.guardando &&
+                    !historialViewModel.guardado,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                if (historialViewModel.guardando) {
+                    "Guardando..."
+                } else if (historialViewModel.guardado) {
+                    "Evaluación guardada"
+                } else {
+                    "Guardar en historial"
+                }
+            )
+        }
+
+        historialViewModel.error?.let { error ->
+            Text(
+                text = error,
+                color = MaterialTheme.colorScheme.error
+            )
+        }
+
+        if (historialViewModel.guardado) {
+            Button(
+                onClick = onAbrirHistorial,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Ver historial")
+            }
         }
 
         Button(
