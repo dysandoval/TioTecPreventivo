@@ -13,12 +13,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tiotecpreventivo.viewmodel.EvaluacionViewModel
 
 @Composable
 fun EvaluacionScreen(
-    viewModel: EvaluacionViewModel = viewModel()
+    viewModel: EvaluacionViewModel,
+    onFinalizar: () -> Unit
 ) {
     val state = viewModel.uiState
     val respuestaActual = state.respuestas[state.indiceActual]
@@ -34,9 +34,7 @@ fun EvaluacionScreen(
             style = MaterialTheme.typography.headlineMedium
         )
 
-        Text(
-            text = "Pregunta ${state.indiceActual + 1} de ${viewModel.preguntas.size}"
-        )
+        Text("Pregunta ${state.indiceActual + 1} de ${viewModel.preguntas.size}")
 
         Text(
             text = viewModel.preguntas[state.indiceActual].texto,
@@ -49,30 +47,28 @@ fun EvaluacionScreen(
         ) {
             Button(
                 onClick = { viewModel.responder(true) },
+                modifier = Modifier.weight(1f),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor =
-                        if (respuestaActual == true) {
-                            MaterialTheme.colorScheme.primary
-                        } else {
-                            MaterialTheme.colorScheme.secondaryContainer
-                        }
-                ),
-                modifier = Modifier.weight(1f)
+                    containerColor = if (respuestaActual == true) {
+                        MaterialTheme.colorScheme.primary
+                    } else {
+                        MaterialTheme.colorScheme.secondaryContainer
+                    }
+                )
             ) {
                 Text("Sí")
             }
 
             Button(
                 onClick = { viewModel.responder(false) },
+                modifier = Modifier.weight(1f),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor =
-                        if (respuestaActual == false) {
-                            MaterialTheme.colorScheme.primary
-                        } else {
-                            MaterialTheme.colorScheme.secondaryContainer
-                        }
-                ),
-                modifier = Modifier.weight(1f)
+                    containerColor = if (respuestaActual == false) {
+                        MaterialTheme.colorScheme.primary
+                    } else {
+                        MaterialTheme.colorScheme.secondaryContainer
+                    }
+                )
             ) {
                 Text("No")
             }
@@ -85,24 +81,20 @@ fun EvaluacionScreen(
             )
         }
 
-        if (!state.finalizada) {
-            Button(
-                onClick = viewModel::siguiente,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    if (state.indiceActual == viewModel.preguntas.lastIndex) {
-                        "Finalizar evaluación"
-                    } else {
-                        "Siguiente"
-                    }
-                )
-            }
-        } else {
+        Button(
+            onClick = {
+                if (viewModel.siguiente()) {
+                    onFinalizar()
+                }
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
             Text(
-                text = "Evaluación completada correctamente.",
-                color = MaterialTheme.colorScheme.primary,
-                style = MaterialTheme.typography.titleMedium
+                if (state.indiceActual == viewModel.preguntas.lastIndex) {
+                    "Ver resultado"
+                } else {
+                    "Siguiente"
+                }
             )
         }
     }
