@@ -1,5 +1,8 @@
 package com.example.tiotecpreventivo
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,6 +16,18 @@ import ui.theme.TioTecPreventivoTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val canal = NotificationChannel(
+                "recordatorios",
+                "Recordatorios preventivos",
+                NotificationManager.IMPORTANCE_DEFAULT
+            ).apply {
+                description = "Avisos para revisar las acciones pendientes del checklist"
+            }
+
+            getSystemService(NotificationManager::class.java)
+                .createNotificationChannel(canal)
+        }
 
         setContent {
             TioTecPreventivoTheme {
